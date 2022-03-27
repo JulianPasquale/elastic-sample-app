@@ -1,23 +1,25 @@
 module Posts
   class SearchService
-    def initialize(criteria)
-      @criteria = criteria
+    def initialize(search_criteria)
+      @search_criteria = search_criteria
     end
 
     def call
-      PostRepository.default_instance.search(
+      return Post.all unless search_criteria.present?
+
+      res = Post.__elasticsearch__.search(
         query: {
           multi_match: {
-            query: criteria,
+            query: search_criteria,
             fuzziness: 'AUTO',
-            fields: %w[title body^5]
+            fields: %w[title body^5 topic]
           }
         }
-      )
+      ).records
     end
 
     private
 
-    attr_reader :criteria
+    attr_reader :search_criteria
   end
 end

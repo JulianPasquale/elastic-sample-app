@@ -1,11 +1,6 @@
 class PostsController < ApplicationController
   def index
-    @posts = 
-      if params[:search].present?
-        Posts::SearchService.new(params[:search]).call
-      else
-        Post.all
-      end
+    @posts = Posts::SearchService.new(params[:search]).call
   end
 
   def show
