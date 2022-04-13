@@ -1,4 +1,5 @@
 class ApplicationElasticRepository
+  include Singleton
   include Elasticsearch::Persistence::Repository
   include Elasticsearch::Persistence::Repository::DSL
 
@@ -6,8 +7,4 @@ class ApplicationElasticRepository
     url: ENV.fetch('ELASTICSEARCH_URL'),
     transport_options: { ssl: { verify: false  }}
   )
-
-  def self.default_instance
-    @@instance ||= new
-  end
 end

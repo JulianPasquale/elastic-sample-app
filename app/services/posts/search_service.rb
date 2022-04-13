@@ -5,7 +5,7 @@ module Posts
     end
 
     def call
-      PostRepository.default_instance.search(
+      PostRepository.instance.search(
         query: {
           multi_match: {
             query: criteria,

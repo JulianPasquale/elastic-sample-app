@@ -5,10 +5,8 @@ module Posts
     end
 
     def call
-      Post.transaction do
-        post = Post.create!(params)
-        PostRepository.default_instance.save(post)
-      end
+      post = Post.create!(params)
+      ::PostRepository.instance.save(post)
     end
 
     private

@@ -1,6 +1,5 @@
 class PostRepository < ApplicationElasticRepository
   index_name 'posts'
-  # document_type 'post'
   klass Post
 
   settings number_of_shards: 1 do

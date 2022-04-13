@@ -9,7 +9,7 @@ class PostsController < ApplicationController
   end
 
   def show
-    @post = Post.find(params[:id])
+    @post = find_post
   end
 
   def new
@@ -17,21 +17,28 @@ class PostsController < ApplicationController
   end
 
   def create
-    Posts::CreateService.new(create_params).call
+    Posts::CreateService.new(post_params).call
 
     redirect_to posts_path
   end
 
   def edit
-    @post = Post.new
+    @post = find_post
   end
 
   def update
+    post = Posts::UpdateService.new(find_post, post_params).call
+
+    redirect_to post
   end
 
   private
   
-  def create_params
+  def post_params
     params.require(:post).permit(:title, :body, :topic)
+  end
+
+  def find_post
+    Post.find(params[:id])
   end
 end
