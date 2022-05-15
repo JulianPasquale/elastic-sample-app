@@ -39,6 +39,10 @@ gem 'bootsnap', require: false
 # Use Sass to process CSS
 # gem 'sassc-rails'
 
+# Elasticsearch gems
+gem 'elasticsearch-rails'
+gem 'elasticsearch-model'
+
 gem 'faker'
 
 group :development, :test do
