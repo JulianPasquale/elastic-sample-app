@@ -12,21 +12,24 @@ class PostsController < ApplicationController
   end
 
   def create
-    Posts::CreateService.new(create_params).call
+    post = Posts::CreateService.new(post_params).call
 
-    redirect_to posts_path
+    redirect_to post
   end
 
   def edit
-    @post = Post.new
+    @post = Post.find(params[:id])
   end
 
   def update
+    post = Posts::UpdateService.new(params[:id], post_params).call
+
+    redirect_to post
   end
 
   private
   
-  def create_params
+  def post_params
     params.require(:post).permit(:title, :body, :topic)
   end
 end
