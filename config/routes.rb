@@ -1,3 +1,5 @@
 Rails.application.routes.draw do
-  resources :posts
+  namespace :elastic do
+    resources :posts
+  end
 end

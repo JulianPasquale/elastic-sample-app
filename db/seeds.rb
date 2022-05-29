@@ -1,11 +1,12 @@
 POSTS_COUNT = 1_000_000
+THREADS_COUNT = 10
 
 puts '========== Generating data =========='
 
 # Using 10 threads
-threads = Array.new(10) do |index|
+threads = Array.new(THREADS_COUNT) do |index|
   Thread.new do
-    result = Array.new(POSTS_COUNT / 10) do
+    result = Array.new(POSTS_COUNT / THREADS_COUNT) do
       {
         title: Faker::Lorem.sentence, 
         body: Faker::Lorem.paragraph,
@@ -20,14 +21,6 @@ threads = Array.new(10) do |index|
 end
 
 posts_data = threads.flat_map(&:value)
-
-# posts_data = Array.new() do |index|
-#   {
-#     title: Faker::Lorem.sentence, 
-#     body: Faker::Lorem.paragraph,
-#     topic: Faker::Company.industry
-#   }
-# end
 
 puts '========== Data generated =========='
 
