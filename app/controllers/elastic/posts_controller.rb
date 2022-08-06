@@ -1,7 +1,7 @@
 module Elastic
   class PostsController < ApplicationController
     def index
-      @posts = Posts::SearchService.new(params[:search]).call
+      @posts = Posts::SearchQuery.new(params[:search]).call
     end
 
     def show

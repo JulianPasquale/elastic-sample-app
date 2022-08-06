@@ -1,6 +1,6 @@
 module Elastic
   module Posts
-    class SearchService
+    class SearchQuery
       def initialize(search_criteria)
         @search_criteria = search_criteria
       end
