@@ -2,6 +2,10 @@
 
 <h1>Posts</h1>
 
+<div id="filter">
+  <%= render partial: 'search_form', locals: { object: @form } %>
+</div>
+
 <div id="posts">
   <%= render @posts %>
 </div>

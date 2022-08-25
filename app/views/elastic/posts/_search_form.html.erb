@@ -1,0 +1,4 @@
+<%= form_with(model: object, url: elastic_posts_path, method: :get)  do |form| %>
+  <%= form.text_field :search %>
+  <%= form.submit "Search" %>
+<% end %>
