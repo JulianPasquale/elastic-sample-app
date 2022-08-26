@@ -1,12 +1,14 @@
 module Elastic
   module Posts
     class SearchQuery
+      DEFAULT_RECORDS_COUNT = 100
+
       def initialize(search_criteria)
         @search_criteria = search_criteria
       end
 
       def call
-        return Post.all unless search_criteria.present?
+        return Post.first(DEFAULT_RECORDS_COUNT) unless search_criteria.present?
 
         res = Post.__elasticsearch__.search(
           query: {
@@ -22,6 +24,10 @@ module Elastic
       private
 
       attr_reader :search_criteria
+
+      # def all_records
+      #   Post.__elasticsearch__.search('*:*').records
+      # end
     end
   end
 end
