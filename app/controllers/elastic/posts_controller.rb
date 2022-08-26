@@ -29,9 +29,7 @@ module Elastic
     end
 
     def destroy
-      @post = Post.find(params[:id])
-
-      @post.destroy!
+      Posts::DeleteService.new(params[:id]).call
 
       redirect_to elastic_posts_path
     end
