@@ -1,8 +1,7 @@
 module Elastic
   class PostsController < ApplicationController
     def index
-      @form = SearchForm.new(search_params)
-      @posts = Posts::SearchQuery.new(@form.search).call
+      @facade = Elastic::Posts::IndexFacade.new(params)
     end
 
     def show
@@ -38,10 +37,6 @@ module Elastic
     end
 
     private
-    
-    def search_params
-      params.require(:elastic_search_form).permit(:search) if params[:elastic_search_form]
-    end
 
     def post_params
       params.require(:post).permit(:title, :body, :topic)
