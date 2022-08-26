@@ -1,0 +1,53 @@
+version: '3'
+services:
+  app:
+    build: 
+      context: .
+    environment:
+      DATABASE_URL:        postgresql://postgres:postgres@db
+      RAILS_ENV:           ${RAILS_ENV}
+      RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT}
+      SEED:                ${SEED}
+      MIGRATE:             ${MIGRATE}
+      ELASTICSEARCH_URL:   "http://elastic:9200"
+
+    volumes:
+      - ./:/app/
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    links:
+      - db
+
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_PASSWORD: 'postgres'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    # You can export a port to access db outside container.
+    # Use a different port to avoid conflict with existing process.
+    # ports:
+    #   - 5433:5432
+
+  elastic:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.3.3
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    ports:
+      - 9200:9200
+    volumes:
+      - esdata:/usr/share/elasticsearch/data
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - xpack.security.transport.ssl.enabled=false
+      - xpack.security.http.ssl.enabled=false
+      - ELASTIC_PASSWORD=${ELASTIC_USER_PASSWORD}
+
+volumes:
+  db_data:
+  esdata:
