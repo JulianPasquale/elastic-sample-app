@@ -1,0 +1,13 @@
+<p style="color: green"><%= notice %></p>
+
+<h1>Posts</h1>
+
+<div id="filter">
+  <%= render partial: 'search_form', locals: { object: @facade.filter_form } %>
+</div>
+
+<div id="posts">
+  <%= render @facade.posts %>
+</div>
+
+<%= link_to "New post", new_fulltext_post_path %>
