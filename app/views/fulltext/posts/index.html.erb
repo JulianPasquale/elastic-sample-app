@@ -7,7 +7,7 @@
 </div>
 
 <div id="posts">
-  <%= render @facade.posts %>
+  <%= render partial: 'posts/post', collection: @facade.posts %>
 </div>
 
 <%= link_to "New post", new_post_path %>

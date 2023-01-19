@@ -24,10 +24,6 @@ module Elastic
       private
 
       attr_reader :search_criteria
-
-      # def all_records
-      #   Post.__elasticsearch__.search('*:*').records
-      # end
     end
   end
 end
