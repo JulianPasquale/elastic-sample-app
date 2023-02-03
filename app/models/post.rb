@@ -8,8 +8,18 @@ class Post < ApplicationRecord
   # multisearchable against: [:title, :body, :topic]
   pg_search_scope(
     :search_full_text,
-    against: [:title, :body, :topic],
-    using: [:tsearch]
+    against: {
+      body: 'A',
+      title: 'B',
+      topic: 'C'
+    },
+    using: {
+      tsearch: {
+        dictionary: 'english',
+        any_word: true,
+        prefix: true
+      },
+    }
   )
   
   # ElastichSearch
