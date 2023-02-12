@@ -10,7 +10,7 @@ module Elastic
       def call
         return Post.first(DEFAULT_RECORDS_COUNT) unless search_criteria.present?
 
-        res = Post.__elasticsearch__.search(
+        Post.__elasticsearch__.search(
           query: {
             multi_match: {
               query: search_criteria,
