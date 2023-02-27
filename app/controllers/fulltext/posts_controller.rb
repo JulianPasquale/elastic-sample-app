@@ -1,7 +1,7 @@
-module Elastic
+module Fulltext
   class PostsController < ApplicationController
     def index
-      @facade = Elastic::Posts::IndexFacade.new(params)
+      @facade = Fulltext::Posts::IndexFacade.new(params)
     end
   end
 end

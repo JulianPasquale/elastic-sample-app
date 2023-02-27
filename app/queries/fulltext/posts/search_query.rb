@@ -1,4 +1,4 @@
-module Elastic
+module Fulltext
   module Posts
     class SearchQuery
       DEFAULT_RECORDS_COUNT = 100
@@ -10,15 +10,7 @@ module Elastic
       def call
         return Post.first(DEFAULT_RECORDS_COUNT) unless search_criteria.present?
 
-        res = Post.__elasticsearch__.search(
-          query: {
-            multi_match: {
-              query: search_criteria,
-              fuzziness: 'AUTO',
-              fields: %w[title body^5 topic]
-            }
-          }
-        ).records
+        Post.search_full_text(search_criteria)
       end
 
       private
