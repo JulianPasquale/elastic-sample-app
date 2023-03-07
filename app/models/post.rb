@@ -5,20 +5,19 @@ class Post < ApplicationRecord
   validates :title, :body, :topic, presence: true
 
   # Full-text search
-  # multisearchable against: [:title, :body, :topic]
   pg_search_scope(
     :search_full_text,
-    against: {
-      body: 'A',
-      title: 'B',
-      topic: 'C'
-    },
+    against: [:body, :title, :topic],
     using: {
       tsearch: {
         dictionary: 'english',
         any_word: true,
         prefix: true
       },
+      trigram: {
+        threshold: 0.2
+      },
+      dmetaphone: {}
     }
   )
   
