@@ -12,14 +12,55 @@ class Post < ApplicationRecord
       tsearch: {
         dictionary: 'english',
         any_word: true,
-        prefix: true
-      },
-      trigram: {
-        threshold: 0.2
-      },
-      dmetaphone: {}
+        prefix: true,
+        tsvector_column: 'fulltext_tsv'
+      }
     }
   )
+
+  pg_search_scope(
+    :non_cached_full_text_search,
+    against: [:body, :title, :topic],
+    using: {
+      tsearch: {
+        dictionary: 'english',
+        any_word: true,
+        prefix: true
+      }
+    }
+  )
+
+  pg_search_scope(
+    :combined_search,
+    against: [:body, :title, :topic],
+    using: {
+      tsearch: {
+        dictionary: 'english',
+        tsvector_column: 'fulltext_tsv'
+      },
+      trigram: {
+        threshold: 0.3
+      }
+    }
+  )
+
+  pg_search_scope(
+    :trigrams_search,
+    against: [:body, :title, :topic],
+    using: {
+      trigram: {
+        threshold: 0.3
+      }
+    }
+  )
+
+  # Update tsvector index
+  trigger.before(:insert, :update) do
+    "FOR EACH ROW EXECUTE PROCEDURE
+      tsvector_update_trigger(
+        fulltext_tsv, 'pg_catalog.english', body, title, topic
+      );"
+  end
   
   # ElastichSearch
   alias_method :to_hash, :attributes
