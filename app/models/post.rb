@@ -5,20 +5,52 @@ class Post < ApplicationRecord
   validates :title, :body, :topic, presence: true
 
   # Full-text search
-  # multisearchable against: [:title, :body, :topic]
   pg_search_scope(
     :search_full_text,
-    against: {
-      body: 'A',
-      title: 'B',
-      topic: 'C'
-    },
+    against: [:body, :title, :topic],
+    using: {
+      tsearch: {
+        dictionary: 'english',
+        any_word: true,
+        prefix: true,
+        tsvector_column: 'fulltext_tsv'
+      }
+    }
+  )
+
+  pg_search_scope(
+    :non_cached_full_text_search,
+    against: [:body, :title, :topic],
     using: {
       tsearch: {
         dictionary: 'english',
         any_word: true,
         prefix: true
+      }
+    }
+  )
+
+  pg_search_scope(
+    :combined_search,
+    against: [:body, :title, :topic],
+    using: {
+      tsearch: {
+        dictionary: 'english',
+        tsvector_column: 'fulltext_tsv'
       },
+      trigram: {
+        threshold: 0.3
+      }
+    }
+  )
+
+  pg_search_scope(
+    :trigrams_search,
+    against: [:body, :title, :topic],
+    using: {
+      trigram: {
+        threshold: 0.3
+      }
     }
   )
   
