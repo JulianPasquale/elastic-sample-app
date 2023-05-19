@@ -1,4 +1,4 @@
-POSTS_COUNT = 1_000
+POSTS_COUNT = 50_000
 
 posts_data = Array.new(POSTS_COUNT) do
   {

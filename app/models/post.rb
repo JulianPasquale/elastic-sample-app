@@ -53,14 +53,6 @@ class Post < ApplicationRecord
       }
     }
   )
-
-  # Update tsvector index
-  trigger.before(:insert, :update) do
-    "FOR EACH ROW EXECUTE PROCEDURE
-      tsvector_update_trigger(
-        fulltext_tsv, 'pg_catalog.english', body, title, topic
-      );"
-  end
   
   # ElastichSearch
   alias_method :to_hash, :attributes
