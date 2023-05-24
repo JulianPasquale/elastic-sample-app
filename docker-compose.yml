@@ -4,7 +4,7 @@ services:
     build: 
       context: .
     environment:
-      DATABASE_URL:        postgresql://postgres:postgres@db
+      DATABASE_URL:        postgresql://postgres:postgres@db/elastic_sample_app
       RAILS_ENV:           ${RAILS_ENV}
       RAILS_LOG_TO_STDOUT: ${RAILS_LOG_TO_STDOUT}
       SEED:                ${SEED}

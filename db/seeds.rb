@@ -1,4 +1,4 @@
-POSTS_COUNT = 1_000
+POSTS_COUNT = 50_000
 
 posts_data = Array.new(POSTS_COUNT) do
   {
@@ -7,6 +7,12 @@ posts_data = Array.new(POSTS_COUNT) do
     topic: Faker::Company.industry
   }
 end
+
+posts_data << {
+  title: "Fixed title #{Time.now.to_i}",
+  body: "Fixed body #{Time.now.to_i}",
+  topic: Faker::Company.industry
+}
 puts '========== Data generated =========='
 
 if Post.create(posts_data)

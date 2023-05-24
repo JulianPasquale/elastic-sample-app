@@ -10,8 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_01_16_174207) do
+ActiveRecord::Schema[7.0].define(version: 2023_05_19_143606) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "fuzzystrmatch"
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
 
   create_table "pg_search_documents", force: :cascade do |t|
@@ -29,6 +31,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_01_16_174207) do
     t.string "topic"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.tsvector "fulltext_tsv"
+    t.index ["fulltext_tsv"], name: "index_posts_on_fulltext_tsv", using: :gin
   end
 
 end
